@@ -1,9 +1,12 @@
 const express = require('express');
+const ServiceRegistry = require('./lib/ServiceRegistry');
 
 const service = express();
 
 module.exports = (config) => {
   const log = config.log();
+
+  const serviceRegistry = new ServiceRegistry(log);
 
   // Add a request logging middleware in development mode
   if (service.get('env') === 'development') {
@@ -16,8 +19,23 @@ module.exports = (config) => {
 
   service.put(
     '/register/:serviceName/:serviceVersion/:servicePort',
-    (req, res, next) => {
-      return next('Not implemented');
+    (req, res) => {
+      const { serviceName, serviceVersion, servicePort } = req.params;
+
+      // Note: we are making sure we conform to IPV6 standard in the case
+      // of request ip is IPV6 that's why we have this [${req.connection.remoteAddress}]
+      const serviceIp = req.connection.remoteAddress.includes('::')
+        ? `[${req.connection.remoteAddress}]`
+        : req.connection.remoteAddress;
+
+      const serviceKey = serviceRegistry.register({
+        serviceName,
+        serviceVersion,
+        servicePort,
+        serviceIp
+      });
+
+      return res.status(200).json({ result: serviceKey });
     }
   );
 
