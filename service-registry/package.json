@@ -1,15 +1,17 @@
 {
   "name": "service-registry",
   "version": "1.0.0",
+  "description": "A generic service registry for Node.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:dev": "nodemon bin/run | bunyan"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bunyan": "^1.8.12",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2"
   },
   "devDependencies": {
     "chai": "^4.2.0",
