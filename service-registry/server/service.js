@@ -42,12 +42,36 @@ module.exports = (config) => {
   service.delete(
     '/register/:serviceName/:serviceVersion/:servicePort',
     (req, res, next) => {
-      return next('Not implemented');
+      const { serviceName, serviceVersion, servicePort } = req.params;
+
+      // Note: we are making sure we conform to IPV6 standard in the case
+      // of request ip is IPV6 that's why we have this [${req.connection.remoteAddress}]
+      const serviceIp = req.connection.remoteAddress.includes('::')
+        ? `[${req.connection.remoteAddress}]`
+        : req.connection.remoteAddress;
+
+      const serviceKey = serviceRegistry.unregister({
+        serviceName,
+        serviceVersion,
+        servicePort,
+        serviceIp
+      });
+
+      return res.status(200).json({ result: serviceKey });
     }
   );
 
-  service.get('/find/:serviceName/:serviceVersion', (req, res, next) => {
-    return next('Not implemented');
+  service.get('/find/:serviceName/:serviceVersion', (req, res) => {
+    const { serviceName, serviceVersion } = req.params;
+    const service = serviceRegistry.get(serviceName, serviceVersion);
+
+    if (!service) {
+      return res.status(404).json({
+        result: 'Service not found'
+      });
+    }
+
+    return res.status(200).json(service);
   });
 
   service.use((err, req, res, next) => {
