@@ -31,6 +31,7 @@ class ServiceRegistry {
       this.services[key].serviceIp = serviceIp;
       this.services[key].serviceName = serviceName;
       this.services[key].serviceVersion = serviceVersion;
+      this.services[key].servicePort = servicePort;
       this.log.debug(
         `Added services ${serviceName}, version ${serviceVersion} at ${serviceIp}:${servicePort}`
       );
