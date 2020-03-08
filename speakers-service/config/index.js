@@ -1,4 +1,5 @@
 const bunyan = require('bunyan');
+const path = require('path');
 const pkj = require('../package.json');
 
 // Get some meta info from package.json
@@ -17,7 +18,10 @@ module.exports = {
     name,
     version,
     serviceTimeOut: 30,
-    log: () => getLogger(name, version, 'debug')
+    log: () => getLogger(name, version, 'debug'),
+    data: {
+      speakers: path.join(__dirname, '../data/speakers.json')
+    }
   },
   production: {
     name,

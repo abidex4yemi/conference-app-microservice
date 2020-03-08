@@ -51,6 +51,10 @@ class ServiceRegistry {
 
     delete this.services[key];
 
+    this.log.debug(
+      `Unregistered services ${serviceName}, version ${serviceVersion} at ${serviceIp}:${servicePort}`
+    );
+
     return key;
   }
 
