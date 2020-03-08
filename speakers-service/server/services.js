@@ -7,6 +7,8 @@ module.exports = (config) => {
 
   const speakers = new Speakers(config.data.speakers);
 
+  service.use('/images', express.static(config.data.images));
+
   // Add a request logging middle in development mode
   if (service.get('env') === 'development') {
     service.use((req, res, next) => {

@@ -20,19 +20,28 @@ module.exports = {
     serviceTimeOut: 30,
     log: () => getLogger(name, version, 'debug'),
     data: {
-      speakers: path.join(__dirname, '../data/speakers.json')
+      speakers: path.join(__dirname, '../data/speakers.json'),
+      images: path.join(__dirname, '../data/images')
     }
   },
   production: {
     name,
     version,
     serviceTimeOut: 30,
-    log: () => getLogger(name, version, 'info')
+    log: () => getLogger(name, version, 'info'),
+    data: {
+      speakers: path.join(__dirname, '../data/speakers.json'),
+      images: path.join(__dirname, '../data/images')
+    }
   },
   test: {
     name,
     version,
     serviceTimeOut: 30,
-    log: () => getLogger(name, version, 'fatal')
+    log: () => getLogger(name, version, 'fatal'),
+    data: {
+      speakers: path.join(__dirname, '../data/speakers.json'),
+      images: path.join(__dirname, '../data/images')
+    }
   }
 };

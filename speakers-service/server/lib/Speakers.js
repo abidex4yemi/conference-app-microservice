@@ -11,28 +11,28 @@ class SpeakersService {
   async getNames() {
     const data = await this.getData();
 
-    return data.map(speaker => ({
+    return data.map((speaker) => ({
       name: speaker.name,
-      shortname: speaker.shortname,
+      shortname: speaker.shortname
     }));
   }
 
   async getListShort() {
     const data = await this.getData();
-    return data.map(speaker => ({
+    return data.map((speaker) => ({
       name: speaker.name,
       shortname: speaker.shortname,
-      title: speaker.title,
+      title: speaker.title
     }));
   }
 
   async getList() {
     const data = await this.getData();
-    return data.map(speaker => ({
+    return data.map((speaker) => ({
       name: speaker.name,
       shortname: speaker.shortname,
       title: speaker.title,
-      summary: speaker.summary,
+      summary: speaker.summary
     }));
   }
 
@@ -50,19 +50,19 @@ class SpeakersService {
 
   async getSpeaker(shortname) {
     const data = await this.getData();
-    const speaker = data.find(current => current.shortname === shortname);
+    const speaker = data.find((current) => current.shortname === shortname);
     if (!speaker) return null;
     return {
       title: speaker.title,
       name: speaker.name,
       shortname: speaker.shortname,
-      description: speaker.description,
+      description: speaker.description
     };
   }
 
   async getArtworkForSpeaker(shortname) {
     const data = await this.getData();
-    const speaker = data.find(current => current.shortname === shortname);
+    const speaker = data.find((current) => current.shortname === shortname);
     if (!speaker || !speaker.artwork) return null;
     return speaker.artwork;
   }
