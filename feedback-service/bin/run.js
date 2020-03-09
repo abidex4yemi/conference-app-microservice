@@ -1,16 +1,17 @@
-const http = require('http');
+#!/usr/bin/env node
+
 const axios = require('axios');
+const http = require('http');
 const config = require('../config')[process.env.NODE_ENV || 'development'];
 
 const log = config.log();
 
-const service = require('../server/services')(config);
+const service = require('../server/service')(config);
 
 const server = http.createServer(service);
 
-const PORT = 0;
-
-server.listen(PORT);
+// Important - a service should not have a fixed port but should randomly choose one
+server.listen(0);
 
 server.on('listening', () => {
   const registerService = () => {
@@ -31,11 +32,16 @@ server.on('listening', () => {
 
   registerService();
 
-  const interval = setInterval(registerService, 20000);
+  const interval = setInterval(registerService, 15000);
 
   const cleanup = async () => {
-    clearInterval(interval);
-    await unregisterService();
+    let clean = false;
+
+    if (!clean) {
+      clean = true;
+      clearInterval(interval);
+      await unregisterService();
+    }
   };
 
   process.on('uncaughtException', async () => {
